@@ -1,7 +1,7 @@
 ggcharts
 ================
 
-[![Build Status](https://travis-ci.com/thomas-neitmann/ggcharts.svg?branch=master)](https://travis-ci.com/thomas-neitmann/ggcharts)
+[![R build status](https://github.com/thomas-neitmann/ggcharts/workflows/R-CMD-check/badge.svg)](https://github.com/thomas-neitmann/ggcharts/actions) [![CRAN Version](https://www.r-pkg.org/badges/version/ggcharts?color=green)](https://cran.r-project.org/package=ggcharts) [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggcharts?color=green)](https://cran.r-project.org/package=ggcharts) [![Lifecycle Status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 Overview
 --------
@@ -10,6 +10,14 @@ Overview
 
 Installation
 ------------
+
+The package is available from CRAN.
+
+``` r
+install.packages("ggcharts")
+```
+
+Alternatively, you can install the latest development version from GitHub.
 
 ``` r
 if (!"remotes" %in% installed.packages()) {
@@ -46,7 +54,7 @@ biomedicalrevenue %>%
 That's a lot of code! And you likely never heard of some of the functions involved. With ggcharts you can create the same plot (actually an even better looking one) in a single line of code.
 
 ``` r
-bar_chart(biomedicalrevenue, company, revenue, facet = year, limit = 10)
+bar_chart(biomedicalrevenue, company, revenue, facet = year, top_n = 10)
 ```
 
 ![](man/figures/README-motivation_continued-1.png)
@@ -64,5 +72,6 @@ Currently `ggcharts` includes the following functions:
 -   `lollipop_chart()`
 -   `diverging_lollipop_chart()`
 -   `dumbbell_chart()`
+-   `pyramid_chart()`
 
-To learn more about these, check out the [package website](https://thomas-neitmann.github.io/ggcharts/reference/index.html).
+You can learn more about these functions [here](https://thomas-neitmann.github.io/ggcharts/reference/index.html).

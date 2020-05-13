@@ -2,8 +2,6 @@
 #'
 #' Easily create a pyramid chart
 #'
-#' @author Thomas Neitmann
-#'
 #' @param data Dataset to use for the pyramid chart
 #' @param x \code{character} or \code{factor} column of \code{data}
 #' @param y \code{numeric} column of \code{data}
@@ -15,14 +13,18 @@
 #'
 #' @return An object of class \code{ggplot}
 #'
-#' @examples
-#' library(magrittr)
-#' data(mtcars)
-#' cars <- mtcars %>%
-#'   dplyr::count(cyl, am) %>%
-#'   dplyr::mutate(am = ifelse(am == 0, "Manual", "Automatic"))
+#' @author Thomas Neitmann
 #'
-#' pyramid_chart(cars, cyl, n, am)
+#' @examples
+#' data(popch)
+#'
+#' pyramid_chart(popch, age, pop, sex)
+#'
+#' ## Change bar colors
+#' pyramid_chart(popch, age, pop, sex, bar_colors = c("darkgreen", "darkorange"))
+#'
+#' ## Change x axis label and add title
+#' pyramid_chart(popch, age, pop, sex, xlab = "Population", title = "Switzerland 2020")
 #'
 #' @import ggplot2
 #' @import patchwork
@@ -37,7 +39,7 @@ pyramid_chart <- function(data, x, y, group, bar_colors = c("#1F77B4", "#FF7F0E"
   groups <- data %>% dplyr::pull(!!group) %>% unique()
   if (length(groups) != 2) {
     err_msg <- paste0(
-      "There must be 2 unique values in `group` but there are ",
+      "There must be 2 unique values in `group`, not ",
       length(groups), "."
     )
     rlang::abort(err_msg)
@@ -52,7 +54,7 @@ pyramid_chart <- function(data, x, y, group, bar_colors = c("#1F77B4", "#FF7F0E"
 
     if (sort == "ascending") order <- -order
   } else {
-    order <- 1:nrow(data)
+    order <- seq_len(nrow(data))
   }
 
 

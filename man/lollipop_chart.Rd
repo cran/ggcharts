@@ -11,14 +11,16 @@ lollipop_chart(
   facet = NULL,
   ...,
   line_size = 0.75,
-  line_color = "#1F77B4",
+  line_color = "auto",
   point_size = 4,
   point_color = line_color,
   highlight = NULL,
   sort = TRUE,
   horizontal = TRUE,
-  limit = NULL,
-  threshold = NULL
+  top_n = NULL,
+  threshold = NULL,
+  other = FALSE,
+  limit = NULL
 )
 }
 \arguments{
@@ -26,7 +28,9 @@ lollipop_chart(
 
 \item{x}{\code{character} or \code{factor} column of \code{data}}
 
-\item{y}{\code{numeric} column of \code{data} representing the lollipop length}
+\item{y}{\code{numeric} column of \code{data} representing the lollipop length.
+If missing, the lollipop length will be proportional to the count of
+each value in \code{x}.}
 
 \item{facet}{\code{character} or \code{factor} column of \code{data} defining
 the faceting groups}
@@ -48,11 +52,17 @@ should be highlighted in the plot}
 
 \item{horizontal}{\code{logical}. Should the plot be oriented horizontally?}
 
-\item{limit}{\code{numeric}. If a value for \code{limit} is provided only the
-top \code{limit} records will be displayed}
+\item{top_n}{\code{numeric}. If a value for \code{top_n} is provided only the
+top \code{top_n} records will be displayed}
 
 \item{threshold}{\code{numeric}. If a value for threshold is provided only
 records with \code{y > threshold} will be displayed}
+
+\item{other}{\code{logical}. Should all \code{x} with \code{y < threshold} be
+summarized in a group called 'other' and be displayed at the bottom of
+the chart?}
+
+\item{limit}{Deprecated. use \code{top_n} instead.}
 }
 \value{
 An object of class \code{ggplot}
@@ -61,10 +71,10 @@ An object of class \code{ggplot}
 Easily create a lollipop chart
 }
 \details{
-Both \code{limit} and \code{threshold} only work when \code{sort = TRUE}.
+Both \code{top_n} and \code{threshold} only work when \code{sort = TRUE}.
 Attempting to use them when \code{sort = FALSE} will result in an error.
-Furthermore, only \code{limit} or \code{threshold} can be used at a time.
-Providing a value for both \code{limit} and \code{threshold} will result in
+Furthermore, only \code{top_n} or \code{threshold} can be used at a time.
+Providing a value for both \code{top_n} and \code{threshold} will result in
 an error as well.
 }
 \examples{
@@ -75,11 +85,14 @@ revenue_bayer <- biomedicalrevenue[biomedicalrevenue$company == "Bayer", ]
 ## By default lollipop_chart() creates a horizontal and sorted plot
 lollipop_chart(revenue2016, company, revenue)
 
+## If the `y` argument is missing the count of each value in `x` is displayed
+lollipop_chart(mtcars, cyl)
+
 ## Create a vertical, non-sorted lollipop chart
 lollipop_chart(revenue_bayer, year, revenue, horizontal = FALSE, sort = FALSE)
 
 ## Limit the number of lollipops to the top 15
-lollipop_chart(revenue2016, company, revenue, limit = 15)
+lollipop_chart(revenue2016, company, revenue, top_n = 15)
 
 ## Display only companies with revenue > 50B.
 lollipop_chart(revenue2016, company, revenue, threshold = 50)
@@ -94,11 +107,16 @@ lollipop_chart(revenue2016, company, revenue, point_color = "darkgreen", line_co
 lollipop_chart(revenue2016, company, revenue, point_size = 2.5)
 
 ## Highlight a single lollipop
-lollipop_chart(revenue2016, company, revenue, limit = 15, highlight = "Roche")
+lollipop_chart(revenue2016, company, revenue, top_n = 15, highlight = "Roche")
 
 ## Use facets to show the top 10 companies over the years
-lollipop_chart(biomedicalrevenue, company, revenue, facet = year, limit = 10)
+lollipop_chart(biomedicalrevenue, company, revenue, facet = year, top_n = 10)
 
+}
+\seealso{
+For more details have a look at these vignettes:
+\code{vignette("highlight", package = "ggcharts")}
+\code{vignette("customize", package = "ggcharts")}
 }
 \author{
 Thomas Neitmann

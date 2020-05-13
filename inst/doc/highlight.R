@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
   fig.height = 5.5
 )
 
-## ----setup, message=FALSE-----------------------------------------------------
+## ----setup, message=FALSE, warning=FALSE--------------------------------------
 library(ggcharts)
 library(dplyr)
 data("biomedicalrevenue")
@@ -18,28 +18,33 @@ bar_chart(
   revenue2018,
   company,
   revenue,
-  limit = 10,
+  top_n = 10,
   highlight = "Roche"
 )
 
 ## -----------------------------------------------------------------------------
+ggcharts_set_theme("theme_ng")
 bar_chart(
   revenue2018,
   company,
   revenue,
-  limit = 10,
-  highlight = "Roche",
-  bar_color = "darkorange"
+  top_n = 10,
+  highlight = "Roche"
 )
 
 ## -----------------------------------------------------------------------------
-lollipop_chart(
+ggcharts_set_theme("theme_ggcharts")
+spec <- highlight_spec(
+  what = "Roche",
+  highlight_color = "black",
+  other_color = "lightgray"
+)
+bar_chart(
   revenue2018,
   company,
   revenue,
-  limit = 10,
-  highlight = "Roche",
-  line_color = "darkgreen"
+  top_n = 10,
+  highlight = spec
 )
 
 ## -----------------------------------------------------------------------------
@@ -47,18 +52,21 @@ bar_chart(
   revenue2018,
   company,
   revenue,
-  limit = 10,
+  top_n = 10,
   highlight = c("Roche", "Novartis")
 )
 
 ## -----------------------------------------------------------------------------
+spec <- highlight_spec(
+  what = c("Roche", "Novartis"),
+  highlight_color = c("steelblue", "darkorange")
+)
 lollipop_chart(
   revenue2018,
   company,
   revenue,
-  limit = 10,
-  highlight = c("Roche", "Novartis"),
-  line_color = c("steelblue", "darkorange")
+  top_n = 10,
+  highlight = spec
 )
 
 ## ---- fig.width=8, fig.height=8-----------------------------------------------
@@ -68,8 +76,7 @@ biomedicalrevenue %>%
     company,
     revenue,
     facet = year,
-    limit = 12,
-    highlight = "Bayer",
-    bar_color = "darkgreen"
+    top_n = 12,
+    highlight = "Bayer"
   )
 
