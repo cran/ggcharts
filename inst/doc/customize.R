@@ -42,7 +42,7 @@ print(chart)
 chart <- chart +
   scale_y_continuous(
     labels = scales::percent_format(scale = 1),
-    expand = expansion(mult = c(0, .05)),
+    expand = expand_scale(mult = c(0, .05)),
     limits = c(0, 80)
   )
 print(chart)
